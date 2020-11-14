@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long int
+ 
+ll ar[501],dp[501][501];
+ 
+ll solve(ll i,ll j){
+    if(i==j){
+    	return 1;     
+    }
+    if(i>j){
+    	return 0;     
+    }
+    if(dp[i][j]!=-1){
+        return dp[i][j];  
+    }
+ 	ll temp=ar[i],ans=100000001;     
+  	for(ll k=i;k<=j;k++){
+      	if(ar[k]==temp){
+         	if(k==i){
+          		ans=min(ans,1+solve(k+1,j));      
+          	}
+          	else{
+             	if(k==j){
+               		ans=min(ans,solve(i+1,k-1));      
+              	}
+              	else{
+               		ans=min(ans,solve(i+1,k-1)+solve(k+1,j));
+               	}
+            }
+        }
+    }
+   return dp[i][j]=ans;
+}
+ 
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);  
+	ll n,i,j;
+	cin>>n;
+	for(i=0;i<n;i++){
+		cin>>ar[i];     
+	}
+	for(i=0;i<501;i++){
+		for(j=0;j<501;j++){
+			dp[i][j]=-1;  
+		}
+	}
+	cout<<solve(0,n-1);
+	return 0;
+}
